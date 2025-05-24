@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>University Asset System - Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background-color: #000;
+      height: 75px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      box-sizing: border-box;
+    }
+
+    .top-bar .left-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    .logo {
+      height: 60px;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .lang-btn {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      height: 36px;
+      width: 50px;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .lang-btn:hover {
+      background-color: #eee;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-top: 75px;
+    }
+
+    .logo-section {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .logo-section img {
+      max-width: 80%;
+      height: auto;
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 350px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      background-color: black;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <button onclick="toggleLanguage()" class="lang-btn">AR</button>
+    <div class="left-section">
+      <img src="mini_logo.png" alt="University Logo" class="logo">
+      <span class="title">University Asset System</span>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <div class="logo-section">
+      <img src="uni_logo.png" alt="University Logo">
+    </div>
+
+    <div class="form-section">
+      <div class="form-box">
+        <h2>University Asset System</h2>
+        <form id="loginForm" onsubmit="goToHome(event)">
+          <input type="email" id="email" placeholder="Email" required>
+          <input type="password" id="password" placeholder="Password" required>
+          
+          <select id="role" required>
+            <option value="">-- Select Role --</option>
+            <option value="admin">System Administrator</option>
+            <option value="user">Regular User</option>
+            <option value="maintenance">Maintenance & Services</option>
+          </select>
+
+          <button type="submit">Login</button>
+        </form>
+        <div class="links">
+          <a href="forgot-password_en.html">Forgot password?</a>
+          <div>Don't have an account? <a href="register_en.html">Register now</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 The University of Jordan - All Rights Reserved</p>
+      <p>Location: Jubaiha, Amman, Jordan | Phone: 06-5355000 | Email: info@ju.edu.jo</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleLanguage() {
+      const current = window.location.href;
+      if (current.includes("_en")) {
+        window.location.href = current.replace("_en", "");
+      } else {
+        const url = current.replace(".html", "_en.html");
+        window.location.href = url;
+      }
+    }
+
+    function goToHome(event) {
+      event.preventDefault();
+
+      const role = document.getElementById("role").value;
+      if (!role) {
+        alert("Please select a user type");
+        return;
+      }
+
+      localStorage.setItem("userRole", role);
+
+      if (role === "admin") {
+        window.location.href = "admin_home_en.html";
+      } else if (role === "maintenance") {
+        window.location.href = "maintenance_home_en.html";
+      } else {
+        window.location.href = "home_en.html";
+      }
+    }
+  </script>
+
+</body>
+</html>

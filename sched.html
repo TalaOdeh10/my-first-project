@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مواعيدي - المستخدم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      margin-left: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-menu {
+      position: relative;
+      margin-right: 40px;
+    }
+
+    .profile-icon {
+      width: 80px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      min-width: 140px;
+      text-align: right;
+      z-index: 100;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .dropdown a:hover {
+      background-color: #eee;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      margin: 2px;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Cairo', sans-serif;
+      cursor: pointer;
+    }
+
+    .btn-accept {
+      background-color: green;
+      color: white;
+    }
+
+    .btn-reject {
+      background-color: red;
+      color: white;
+    }
+
+    .footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+    }
+
+    .footer-content p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="logo">
+    <img src="mini_logo.png" alt="شعار الجامعة">
+    <span>نظام العهد الجامعي</span>
+  </div>
+
+  <div style="display: flex; align-items: center;">
+    <div class="nav-links">
+      <a href="home.html">الرئيسية</a>
+      <a href="equipment.html">العهد</a>
+      <a href="reports.html">التقارير</a>
+      <a href="sched.html">مواعيد الصيانة</a>
+    </div>
+
+    <div class="profile-menu">
+      <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+      <div class="dropdown" id="dropdown-menu">
+        <a href="settings.html">الإعدادات</a>
+        <a href="login.html">تسجيل الخروج</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <h1>مواعيد الصيانة الخاصة بي</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>التاريخ</th>
+        <th>الوقت</th>
+        <th>من</th>
+        <th>الإجراء</th>
+      </tr>
+    </thead>
+    <tbody id="appointmentsBody">
+      <!-- يتم تعبئتها ديناميكياً -->
+    </tbody>
+  </table>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+    <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+  </div>
+</footer>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown-menu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  window.onclick = function(e) {
+    if (!e.target.matches('.profile-icon')) {
+      const dropdown = document.getElementById("dropdown-menu");
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+      }
+    }
+  }
+
+  const appointments = JSON.parse(localStorage.getItem("userAppointments") || "[]");
+
+  function renderAppointments() {
+    const tbody = document.getElementById("appointmentsBody");
+    tbody.innerHTML = "";
+    appointments.forEach(app => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${app.date}</td>
+        <td>${app.time}</td>
+        <td>${app.from}</td>
+        <td>
+          <button class="btn btn-accept" onclick="respondToAppointment('accept', '${app.date}', '${app.time}')">موافق</button>
+          <button class="btn btn-reject" onclick="respondToAppointment('reschedule', '${app.date}', '${app.time}')">موعد جديد</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  function respondToAppointment(action, date, time) {
+    const responses = JSON.parse(localStorage.getItem("appointmentResponses") || "[]");
+    const newResponse = { date, time, response: action, timestamp: new Date().toISOString() };
+    responses.push(newResponse);
+    localStorage.setItem("appointmentResponses", JSON.stringify(responses));
+    alert(action === "accept" ? "تمت الموافقة على الموعد." : "تم طلب موعد جديد.");
+  }
+
+  renderAppointments();
+</script>
+
+</body>
+</html>

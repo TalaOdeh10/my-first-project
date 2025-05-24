@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>المعدات - مدير النظام</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 60px;
+      margin-left: 10px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+    .nav-links a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .profile-menu {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .profile-icon {
+      width: 80px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 0;
+      background-color: white;
+      color: black;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      min-width: 150px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+      text-align: right;
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      color: black;
+      text-decoration: none;
+    }
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      text-align: center;
+    }
+    .add-button {
+      margin-bottom: 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .filter-select {
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      background-color: #f9f9f9;
+    }
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+    .form-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 2px solid #000;
+      padding: 20px;
+      z-index: 1000;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: right;
+      width: 350px;
+    }
+    .form-popup input, .form-popup select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo">
+      <img src="mini_logo.png" alt="شعار الجامعة">
+      <span>نظام العهد الجامعي</span>
+    </div>
+    <div class="nav-links">
+      <a href="admin_home.html">الرئيسية</a>
+      <a href="admin_users.html">المستخدمون</a>
+      <a href="admin_equipment.html">المعدات</a>
+      <a href="admin_reports.html">التقارير</a>
+    </div>
+  </div>
+
+  
+
+  <div class="main-content">
+    <h1>إدارة المعدات حسب المستخدمين</h1>
+    <select class="filter-select" id="userFilter" onchange="filterByUser()">
+      <option value="">كل المستخدمين</option>
+    </select>
+    <button class="add-button" onclick="openForm()">+ إضافة معدة</button>
+
+    <div class="form-popup" id="equipmentForm">
+      <h3>إضافة معدة جديدة</h3>
+      <input type="text" id="equipName" placeholder="اسم المعدة">
+      <input type="number" id="quantity" placeholder="الكمية">
+      <input type="text" id="status" placeholder="الحالة">
+      <select id="ownerSelect">
+        <option value="">اختر المستخدم</option>
+      </select>
+      <button onclick="addEquipment()">إضافة</button>
+    </div>
+
+    <table id="equipmentTable">
+      <thead>
+        <tr>
+          <th>اسم المعدة</th>
+          <th>الكمية</th>
+          <th>الحالة</th>
+          <th>تابعة لـ</th>
+        </tr>
+      </thead>
+      <tbody id="equipmentBody"></tbody>
+    </table>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+      <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    function openForm() {
+      document.getElementById("equipmentForm").style.display = "block";
+    }
+
+    function addEquipment() {
+      const name = document.getElementById("equipName").value;
+      const qty = document.getElementById("quantity").value;
+      const status = document.getElementById("status").value;
+      const owner = document.getElementById("ownerSelect").value;
+
+      if (name && qty && status && owner) {
+        const newEquip = { name, quantity: qty, status, owner };
+        const allEquip = JSON.parse(localStorage.getItem("userEquipment") || "[]");
+        allEquip.push(newEquip);
+        localStorage.setItem("userEquipment", JSON.stringify(allEquip));
+
+        renderEquipment();
+        document.getElementById("equipmentForm").style.display = "none";
+        document.getElementById("equipName").value = "";
+        document.getElementById("quantity").value = "";
+        document.getElementById("status").value = "";
+        document.getElementById("ownerSelect").value = "";
+        alert("تمت إضافة المعدة بنجاح!");
+      } else {
+        alert("يرجى تعبئة جميع الحقول.");
+      }
+    }
+
+    function renderEquipment() {
+      const data = JSON.parse(localStorage.getItem("userEquipment") || "[]");
+      const tbody = document.getElementById("equipmentBody");
+      tbody.innerHTML = "";
+
+      data.forEach(equip => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${equip.name}</td>
+          <td>${equip.quantity}</td>
+          <td>${equip.status}</td>
+          <td>${equip.owner}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      filterByUser();
+    }
+
+    function filterByUser() {
+      const selected = document.getElementById("userFilter").value;
+      const rows = document.querySelectorAll("#equipmentTable tbody tr");
+      rows.forEach(row => {
+        const owner = row.cells[3].innerText;
+        row.style.display = selected === "" || owner === selected ? "" : "none";
+      });
+    }
+
+    function populateUserOptions() {
+      const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+      const ownerSelect = document.getElementById("ownerSelect");
+      const filterSelect = document.getElementById("userFilter");
+
+      ownerSelect.innerHTML = `<option value="">اختر المستخدم</option>`;
+      filterSelect.innerHTML = `<option value="">كل المستخدمين</option>`;
+
+      users.forEach(user => {
+        const opt1 = document.createElement("option");
+        opt1.value = opt1.textContent = user;
+        ownerSelect.appendChild(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = opt2.textContent = user;
+        filterSelect.appendChild(opt2);
+      });
+    }
+
+    window.onload = () => {
+      populateUserOptions();
+      renderEquipment();
+    };
+  </script>
+</body>
+</html>

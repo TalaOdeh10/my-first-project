@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام العهد الجامعي - قائمة المعدات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo img {
+      height: 60px;
+      margin-left: 10px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+    .profile-menu {
+      position: relative;
+      margin-right: 40px;
+    }
+    .profile-icon {
+      width: 80px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 100;
+      min-width: 140px;
+      text-align: right;
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #000;
+      font-weight: normal;
+    }
+    .dropdown a:hover {
+      background-color: #eee;
+    }
+    .main-content {
+      flex: 1;
+      padding: 30px;
+    }
+    .page-title {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .search-bar {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-family: 'Cairo', sans-serif;
+    }
+    .equipment-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .equipment-table th, 
+    .equipment-table td {
+      padding: 12px 15px;
+      text-align: right;
+      border-bottom: 1px solid #ddd;
+    }
+    .equipment-table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #333;
+    }
+    .save-btn {
+      background-color: green;
+      color: white;
+      padding: 10px 20px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .footer {
+      padding: 15px;
+      background-color: #000;
+      color: white;
+      text-align: center;
+    }
+    .footer-content p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo">
+      <img src="mini_logo.png" alt="شعار الجامعة">
+      <span>نظام العهد الجامعي</span>
+    </div>
+    <div style="display: flex; align-items: center;">
+      <div class="nav-links">
+        <a href="home.html">الرئيسية</a>
+        <a href="equipment.html">العهد</a>
+        <a href="reports.html">التقارير</a>
+        <a href="sched.html">مواعيد الصيانة</a>
+      </div>
+      <div class="profile-menu">
+        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+        <div class="dropdown" id="dropdown-menu">
+          <a href="settings.html">الإعدادات</a>
+          <a href="login.html">تسجيل الخروج</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <h1 class="page-title">قائمة المعدات</h1>
+    <input type="text" id="searchInput" class="search-bar" placeholder="ابحث عن العدة...">
+    <table class="equipment-table" id="equipmentTable">
+      <thead>
+        <tr>
+          <th>اسم العهدة</th>
+          <th>الكمية</th>
+          <th>مصدر العهدة</th>
+          <th>حالة العهدة</th>
+          <th>تاريخ الفحص</th>
+        </tr>
+      </thead>
+      <tbody id="equipmentBody">
+        <!-- سيتم تعبئتها من خلال الجافاسكربت -->
+      </tbody>
+    </table>
+    <button class="save-btn" onclick="saveChanges()">حفظ التعديلات</button>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+      <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown-menu");
+        if (dropdown && dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+      const filter = this.value.toLowerCase();
+      const rows = document.querySelectorAll("#equipmentTable tbody tr");
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+      });
+    });
+
+    // Load equipment data
+    let equipmentList = JSON.parse(localStorage.getItem("userEquipment") || "[]");
+    const tbody = document.getElementById("equipmentBody");
+
+    function renderEquipment() {
+      tbody.innerHTML = "";
+      if (equipmentList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5">لا توجد معدات مضافة.</td></tr>`;
+      } else {
+        equipmentList.forEach((item, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>${item.owner}</td>
+            <td>
+              <select data-index="${index}">
+                <option${item.status === "قيد الاستخدام" ? " selected" : ""}>قيد الاستخدام</option>
+                <option${item.status === "تحت الصيانة" ? " selected" : ""}>تحت الصيانة</option>
+                <option${item.status === "معطلة" ? " selected" : ""}>معطلة</option>
+              </select>
+            </td>
+            <td>${new Date().toISOString().split("T")[0]}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+    }
+
+    function saveChanges() {
+      const selects = document.querySelectorAll("select[data-index]");
+      selects.forEach(select => {
+        const index = select.getAttribute("data-index");
+        equipmentList[index].status = select.value;
+      });
+      localStorage.setItem("userEquipment", JSON.stringify(equipmentList));
+      alert("تم حفظ التعديلات بنجاح.");
+    }
+
+    renderEquipment();
+  </script>
+</body>
+</html>

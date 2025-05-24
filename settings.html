@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإعدادات - نظام العهد الجامعي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-title img {
+      height: 60px;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-menu {
+      position: relative;
+    }
+
+    .profile-icon {
+      width: 80px;
+      height: 50px;
+      padding: 0%;
+      margin: 0%;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      min-width: 140px;
+      text-align: right;
+      z-index: 100;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .content {
+      flex: 1;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .settings-box {
+      max-width: 500px;
+      margin: 0 auto;
+      border: 2px solid green;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .settings-box label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .settings-box input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .settings-box button {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .settings-box .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .success-message {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="logo-title">
+      <img src="mini_logo.png" alt="شعار الجامعة">
+      <span>نظام العهد الجامعي</span>
+      
+    </div>
+    <div class="left-section">
+      <div class="nav-links">
+        <a href="home.html">الرئيسية</a>
+        <a href="equipment.html">العهد</a>
+        <a href="reports.html">التقارير</a>
+      </div>
+      <div class="profile-menu">
+        <img src="user_icon.png" class="profile-icon" onclick="toggleDropdown()">
+        <div class="dropdown" id="dropdown-menu">
+          <a href="settings.html">الإعدادات</a>
+          <a href="login.html">تسجيل الخروج</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <img src="user_icon.png" alt="صورة المستخدم" style="width: 320px;height: 200px;">
+    <h2>الإعدادات</h2>
+    <div class="settings-box">
+      <div class="row">
+        <label>البريد الالكتروني:</label>
+        <input type="text" value="M.AbuShariah@ju.edu.jo" readonly>
+      </div>
+      <div class="row">
+        <label>رقم الهاتف:</label>
+        <input type="text">
+        <button>تأكيد التغيير</button>
+      </div>
+      <div class="row">
+        <label>كلمة السر:</label>
+        <input type="text">
+        <button>تأكيد التغيير</button>
+      </div>
+    </div>
+    <div id="successMessage" class="success-message">
+      تم تحديث البيانات بنجاح ✅
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+      <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown-menu");
+        if (dropdown && dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+
+    const buttons = document.querySelectorAll('.settings-box button');
+    const message = document.getElementById('successMessage');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function() {
+        message.style.display = 'block';
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 3000);
+      });
+    });
+  </script>
+</body>
+</html>

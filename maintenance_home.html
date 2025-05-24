@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة مدير النظام - نظام العهد الجامعي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      margin-left: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .nav-links a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .report-dropdown {
+      position: relative;
+    }
+
+    .dropdown-sub {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: #fff;
+      color: #000;
+      min-width: 180px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      z-index: 200;
+      border-radius: 5px;
+      text-align: right;
+    }
+
+    .dropdown-sub a {
+      display: block;
+      padding: 10px 15px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown-sub a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .profile-menu {
+      position: relative;
+      margin-right: 40px;
+    }
+
+    .profile-icon {
+      width: 80px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 45px;
+      left: 0;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 100;
+      min-width: 140px;
+      text-align: right;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #000;
+      font-weight: normal;
+    }
+
+    .dropdown a:hover {
+      background-color: #eee;
+    }
+
+    .main {
+      flex: 1;
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .main h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .main img {
+      width: 100px;
+      margin: 20px 0;
+    }
+
+    .description {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 18px;
+      color: #333;
+      line-height: 1.7;
+      text-align: justify;
+    }
+
+    .footer {
+      padding: 15px;
+      background-color: #000;
+      color: white;
+      text-align: center;
+    }
+
+    .footer-content p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="logo">
+      <img src="mini_logo.png" alt="شعار الجامعة">
+      <span>نظام العهد الجامعي</span>
+    </div>
+
+    <div style="display: flex; align-items: center;">
+      <div class="nav-links">
+        <a href="maintenance_home.html">الرئيسية</a>
+        <a href="maintenance_sched.html">المواعيد</a>
+        <div class="report-dropdown" onmouseover="showSubDropdown()" onmouseout="hideSubDropdown()">
+          <a href="#">التقارير</a>
+          <div class="dropdown-sub" id="reportSubMenu">
+            <a href="#">كلية العلوم</a>
+            <a href="#">كلية الهندسة</a>
+            <a href="#">كلية الآداب</a>
+            <a href="maintenance_reports.html">كلية تكنولوجيا المعلومات</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-menu">
+        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+        <div class="dropdown" id="dropdown-menu">
+          <a href="settings.html">الإعدادات</a>
+          <a href="login.html">تسجيل الخروج</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <h1>اهلا بك في نظام العُهَد الجامعي</h1>
+    <img src="hands_logo.png" alt="Handshake" style="width: 90px; max-width: 100%;">
+    <div class="description">
+      نظام العهد الجامعي هو موقع إلكتروني يساعد في إدارة المعدات والأجهزة (العُهَد) داخل الجامعة بطريقة منظمة وسهلة.
+      يتيح هذا النظام لأعضاء الهيئة التدريسية والإداريين:
+
+      تسجيل الأجهزة أو الأدوات التي تم تسليمها لهم (مثل: حاسوب، طابعة، مكيف...).
+
+      معرفة حالة كل عهدة (قيد الاستخدام، تحتاج صيانة، معطلة).
+
+      تقديم تقارير أو طلبات صيانة لأي عهدة تواجه مشكلة.
+
+      التواصل مع الجهات المسؤولة داخل الجامعة مثل دائرة الصيانة أو تكنولوجيا المعلومات.
+
+      النظام يسهل تتبع كل عهدة من لحظة تسليمها وحتى استرجاعها أو صيانتها، مما يزيد من الشفافية ويقلل من الفقد أو الإهمال
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+      <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown-menu");
+        if (dropdown && dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+
+    function showSubDropdown() {
+      document.getElementById("reportSubMenu").style.display = "block";
+    }
+
+    function hideSubDropdown() {
+      document.getElementById("reportSubMenu").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
