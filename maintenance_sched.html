@@ -200,63 +200,71 @@
   </footer>
 
   <script>
-    function toggleDropdown() {
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown-menu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  window.onclick = function(e) {
+    if (!e.target.matches('.profile-icon')) {
       const dropdown = document.getElementById("dropdown-menu");
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    }
-
-    window.onclick = function(e) {
-      if (!e.target.matches('.profile-icon')) {
-        const dropdown = document.getElementById("dropdown-menu");
-        if (dropdown && dropdown.style.display === "block") {
-          dropdown.style.display = "none";
-        }
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
       }
     }
+  }
 
-    const appointments = JSON.parse(localStorage.getItem("maintenanceAppointments") || "[]");
-    const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
+  const appointments = JSON.parse(localStorage.getItem("maintenanceAppointments") || "[]");
+  const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
 
-    const maintenanceUsers = reports
-      .filter(r => r.recipient === "دائرة الصيانة")
-      .map(r => r.user)
-      .filter((v, i, a) => a.indexOf(v) === i); // unique users
+  const maintenanceUsers = reports
+    .filter(r => r.recipient === "دائرة الصيانة")
+    .map(r => r.user)
+    .filter((v, i, a) => a.indexOf(v) === i); // Unique users
 
-    const select = document.getElementById("recipient");
-    maintenanceUsers.forEach(user => {
-      const option = document.createElement("option");
-      option.value = user;
-      option.textContent = user;
-      select.appendChild(option);
+  const select = document.getElementById("recipient");
+  maintenanceUsers.forEach(user => {
+    const option = document.createElement("option");
+    option.value = user;
+    option.textContent = user;
+    select.appendChild(option);
+  });
+
+  function renderAppointments() {
+    const tbody = document.getElementById("scheduleTableBody");
+    tbody.innerHTML = "";
+    appointments.forEach(app => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${app.date}</td><td>${app.time}</td><td>${app.recipient}</td>`;
+      tbody.appendChild(row);
     });
+  }
 
-    function renderAppointments() {
-      const tbody = document.getElementById("scheduleTableBody");
-      tbody.innerHTML = "";
-      appointments.forEach(app => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${app.date}</td><td>${app.time}</td><td>${app.recipient}</td>`;
-        tbody.appendChild(row);
-      });
+  function addAppointment() {
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const recipient = document.getElementById("recipient").value;
+
+    if (date && time && recipient) {
+      const newApp = { date, time, from: "دائرة الصيانة", recipient };
+
+      appointments.push(newApp);
+      localStorage.setItem("maintenanceAppointments", JSON.stringify(appointments));
+
+      const userAppointments = JSON.parse(localStorage.getItem("userAppointments") || "[]");
+      userAppointments.push(newApp); // same object
+      localStorage.setItem("userAppointments", JSON.stringify(userAppointments));
+
+      renderAppointments();
+      alert("تم إرسال الموعد بنجاح!");
+    } else {
+      alert("يرجى تعبئة جميع الحقول.");
     }
+  }
 
-    function addAppointment() {
-      const date = document.getElementById("date").value;
-      const time = document.getElementById("time").value;
-      const recipient = document.getElementById("recipient").value;
+  renderAppointments();
+</script>
 
-      if (date && time && recipient) {
-        appointments.push({ date, time, recipient });
-        localStorage.setItem("maintenanceAppointments", JSON.stringify(appointments));
-        renderAppointments();
-        alert("تم إرسال الموعد بنجاح!");
-      } else {
-        alert("يرجى تعبئة جميع الحقول.");
-      }
-    }
-
-    renderAppointments();
-  </script>
 
 </body>
 </html>

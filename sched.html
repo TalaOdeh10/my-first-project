@@ -178,6 +178,7 @@
         <th>التاريخ</th>
         <th>الوقت</th>
         <th>من</th>
+        <th>سبب الموعد</th>
         <th>الإجراء</th>
       </tr>
     </thead>
@@ -210,16 +211,22 @@
   }
 
   const appointments = JSON.parse(localStorage.getItem("userAppointments") || "[]");
+  const allReports = JSON.parse(localStorage.getItem("userReports") || "[]");
 
   function renderAppointments() {
     const tbody = document.getElementById("appointmentsBody");
     tbody.innerHTML = "";
+
     appointments.forEach(app => {
+      const matchingReport = allReports.find(r => r.user === app.recipient && r.recipient === "دائرة الصيانة");
+      const reason = matchingReport ? matchingReport.content : "—";
+
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${app.date}</td>
         <td>${app.time}</td>
         <td>${app.from}</td>
+        <td>${reason}</td>
         <td>
           <button class="btn btn-accept" onclick="respondToAppointment('accept', '${app.date}', '${app.time}')">موافق</button>
           <button class="btn btn-reject" onclick="respondToAppointment('reschedule', '${app.date}', '${app.time}')">موعد جديد</button>
