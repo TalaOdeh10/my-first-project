@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>نظام العُهَد الجامعي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background-color: #000;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      margin-left: 10px;
+    }
+
+    .main-content {
+      flex: 1;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .main-content h1 {
+      font-size: 36px;
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    .main-content img {
+      width: 150px;
+      margin: 20px auto;
+    }
+
+    .main-content p {
+      font-size: 18px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+
+    .main-content button {
+      background-color: #000;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .main-content button:hover {
+      background-color: #333;
+    }
+
+    .footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- الشريط العلوي -->
+  <div class="top-bar">
+    <div class="logo">
+      <img src="mini_logo.png" alt="شعار الجامعة">
+      <span>نظام العُهَد الجامعي</span>
+    </div>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="main-content">
+    <h1>مرحبًا بك في نظام العُهَد الجامعي</h1>
+    <img src="uni_logo.png" alt="شعار الجامعة">
+    <p>
+      نظام إلكتروني يهدف إلى تنظيم وتتبع العهد والمعدات الجامعية الخاصة بالطلاب وأعضاء هيئة التدريس والموظفين.
+      يمكنك من خلال النظام عرض العهد الخاصة بك، التحقق من حالتها، وتقديم طلبات الصيانة عند الحاجة.
+    </p>
+    <button onclick="window.location.href='login.html'">تسجيل الدخول</button>
+  </div>
+
+  <!-- الفوتر -->
+  <footer class="footer">
+    <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+    <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+  </footer>
+
+</body>
+</html>
