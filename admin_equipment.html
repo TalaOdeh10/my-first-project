@@ -288,27 +288,36 @@
     }
 
     function populateUserOptions() {
-      const users = JSON.parse(localStorage.getItem("usersList") || "[]");
-      const ownerSelect = document.getElementById("ownerSelect");
-      const filterSelect = document.getElementById("userFilter");
+  const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+  const ownerSelect = document.getElementById("ownerSelect");
+  const filterSelect = document.getElementById("userFilter");
 
-      ownerSelect.innerHTML = `<option value="">اختر المستخدم</option>`;
-      filterSelect.innerHTML = `<option value="">كل المستخدمين</option>`;
+  ownerSelect.innerHTML = `<option value="">اختر المستخدم</option>`;
+  filterSelect.innerHTML = `<option value="">كل المستخدمين</option>`;
 
-      users.forEach(user => {
-        const opt1 = document.createElement("option");
-        opt1.value = opt1.textContent = user;
-        ownerSelect.appendChild(opt1);
+  users.forEach(user => {
+    const name = typeof user === "object" ? user.name : user;
 
-        const opt2 = document.createElement("option");
-        opt2.value = opt2.textContent = user;
-        filterSelect.appendChild(opt2);
-      });
-    }
+    const opt1 = document.createElement("option");
+    opt1.value = opt1.textContent = name;
+    ownerSelect.appendChild(opt1);
+
+    const opt2 = document.createElement("option");
+    opt2.value = opt2.textContent = name;
+    filterSelect.appendChild(opt2);
+  });
+}
+
 
     window.onload = () => {
       populateUserOptions();
       renderEquipment();
+
+      // ✅ تحديث قائمة المستخدمين إذا تم تعديلها من صفحة المستخدمين
+      if (localStorage.getItem("refreshUserOptions") === "true") {
+        populateUserOptions();
+        localStorage.removeItem("refreshUserOptions");
+      }
     };
   </script>
 </body>

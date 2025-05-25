@@ -209,53 +209,57 @@
   </footer>
 
   <script>
-    function toggleDropdown() {
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown-menu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  window.onclick = function(e) {
+    if (!e.target.matches('.profile-icon')) {
       const dropdown = document.getElementById("dropdown-menu");
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    }
-
-    window.onclick = function(e) {
-      if (!e.target.matches('.profile-icon')) {
-        const dropdown = document.getElementById("dropdown-menu");
-        if (dropdown && dropdown.style.display === "block") {
-          dropdown.style.display = "none";
-        }
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
       }
     }
+  }
 
-    function renderUsers() {
-      const table = document.querySelector("#userTable tbody");
-      table.innerHTML = "";
+  function renderUsers() {
+    const table = document.querySelector("#userTable tbody");
+    table.innerHTML = "";
+    const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+    users.forEach(user => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${user.name}</td><td>${user.email}</td><td>${user.position}</td><td><select><option>نشط</option><option>غير نشط</option></select></td>`;
+      table.appendChild(row);
+    });
+  }
+
+  function addUser() {
+    const name = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
+    const position = document.getElementById("position").value;
+
+    if (name && email && position) {
       const users = JSON.parse(localStorage.getItem("usersList") || "[]");
-      users.forEach(user => {
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${user.name}</td><td>${user.email}</td><td>${user.position}</td><td><select><option>نشط</option><option>غير نشط</option></select></td>`;
-        table.appendChild(row);
-      });
+      users.push({ name, email, position });
+      localStorage.setItem("usersList", JSON.stringify(users));
+
+      // ✅ لإبلاغ صفحة المعدات بضرورة تحديث القائمة
+      localStorage.setItem("refreshUserOptions", "true");
+
+      document.getElementById("userForm").style.display = "none";
+      document.getElementById("fullName").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("position").value = "";
+      renderUsers();
+      alert("تمت إضافة المستخدم بنجاح!");
+    } else {
+      alert("يرجى تعبئة جميع الحقول.");
     }
+  }
 
-    function addUser() {
-      const name = document.getElementById("fullName").value;
-      const email = document.getElementById("email").value;
-      const position = document.getElementById("position").value;
+  document.addEventListener("DOMContentLoaded", renderUsers);
+</script>
 
-      if (name && email && position) {
-        const users = JSON.parse(localStorage.getItem("usersList") || "[]");
-        users.push({ name, email, position });
-        localStorage.setItem("usersList", JSON.stringify(users));
-
-        document.getElementById("userForm").style.display = "none";
-        document.getElementById("fullName").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("position").value = "";
-        renderUsers();
-        alert("تمت إضافة المستخدم بنجاح!");
-      } else {
-        alert("يرجى تعبئة جميع الحقول.");
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", renderUsers);
-  </script>
 </body>
 </html>
