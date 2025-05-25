@@ -39,6 +39,12 @@
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
     .profile-menu {
       position: relative;
@@ -76,8 +82,8 @@
       padding: 30px;
       text-align: center;
     }
-    .add-button {
-      margin-bottom: 20px;
+    .add-button, .print-button {
+      margin: 10px 5px;
       background-color: green;
       color: white;
       border: none;
@@ -85,6 +91,9 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
+    }
+    .add-button:hover, .print-button:hover {
+      background-color: darkgreen;
     }
     .filter-select {
       margin-bottom: 20px;
@@ -129,6 +138,10 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    .form-popup .form-actions {
+      display: flex;
+      justify-content: space-between;
+    }
     .footer {
       background-color: #000;
       color: white;
@@ -143,15 +156,22 @@
       <img src="mini_logo.png" alt="شعار الجامعة">
       <span>نظام العهد الجامعي</span>
     </div>
-    <div class="nav-links">
-      <a href="admin_home.html">الرئيسية</a>
-      <a href="admin_users.html">المستخدمون</a>
-      <a href="admin_equipment.html">المعدات</a>
-      <a href="admin_reports.html">التقارير</a>
+    <div style="display: flex; align-items: center;">
+      <div class="nav-links">
+        <a href="admin_home.html">الرئيسية</a>
+        <a href="admin_users.html">المستخدمون</a>
+        <a href="admin_equipment.html" class="active">المعدات</a>
+        <a href="admin_reports.html">التقارير</a>
+      </div>
+      <div class="profile-menu">
+        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+        <div class="dropdown" id="dropdown-menu">
+          <a href="settings.html">الإعدادات</a>
+          <a href="login.html">تسجيل الخروج</a>
+        </div>
+      </div>
     </div>
   </div>
-
-  
 
   <div class="main-content">
     <h1>إدارة المعدات حسب المستخدمين</h1>
@@ -159,6 +179,7 @@
       <option value="">كل المستخدمين</option>
     </select>
     <button class="add-button" onclick="openForm()">+ إضافة معدة</button>
+    <button class="print-button" onclick="window.print()">🖨️ طباعة</button>
 
     <div class="form-popup" id="equipmentForm">
       <h3>إضافة معدة جديدة</h3>
@@ -168,7 +189,16 @@
       <select id="ownerSelect">
         <option value="">اختر المستخدم</option>
       </select>
-      <button onclick="addEquipment()">إضافة</button>
+      <select id="sourceSelect">
+        <option value="">اختر مصدر العهدة</option>
+        <option value="مستودع الجامعة">مستودع الجامعة</option>
+        <option value="تبرع خارجي">تبرع خارجي</option>
+        <option value="شراء مباشر">شراء مباشر</option>
+      </select>
+      <div class="form-actions">
+        <button class="add-button" onclick="addEquipment()">إضافة</button>
+        <button class="print-button" onclick="document.getElementById('equipmentForm').style.display='none'">إلغاء</button>
+      </div>
     </div>
 
     <table id="equipmentTable">
@@ -177,7 +207,8 @@
           <th>اسم المعدة</th>
           <th>الكمية</th>
           <th>الحالة</th>
-          <th>تابعة لـ</th>
+          <th>للمستخدم</th>
+          <th>مصدر العهدة</th>
         </tr>
       </thead>
       <tbody id="equipmentBody"></tbody>
@@ -206,9 +237,10 @@
       const qty = document.getElementById("quantity").value;
       const status = document.getElementById("status").value;
       const owner = document.getElementById("ownerSelect").value;
+      const source = document.getElementById("sourceSelect").value;
 
-      if (name && qty && status && owner) {
-        const newEquip = { name, quantity: qty, status, owner };
+      if (name && qty && status && owner && source) {
+        const newEquip = { name, quantity: qty, status, owner, source };
         const allEquip = JSON.parse(localStorage.getItem("userEquipment") || "[]");
         allEquip.push(newEquip);
         localStorage.setItem("userEquipment", JSON.stringify(allEquip));
@@ -219,6 +251,7 @@
         document.getElementById("quantity").value = "";
         document.getElementById("status").value = "";
         document.getElementById("ownerSelect").value = "";
+        document.getElementById("sourceSelect").value = "";
         alert("تمت إضافة المعدة بنجاح!");
       } else {
         alert("يرجى تعبئة جميع الحقول.");
@@ -237,6 +270,7 @@
           <td>${equip.quantity}</td>
           <td>${equip.status}</td>
           <td>${equip.owner}</td>
+          <td>${equip.source}</td>
         `;
         tbody.appendChild(row);
       });

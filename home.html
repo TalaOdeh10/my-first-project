@@ -36,38 +36,44 @@
       margin-left: 10px;
     }
 
-
     .nav-links {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
     }
 
-    .lang-btn {
-    background-color: #fff;
-    color: #000;
-    border: none;
-    height: 36px;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-
-  .lang-btn:hover {
-    background-color: #eee;
-  }
-
     .nav-links a {
       color: white;
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
 
     .nav-links a:hover {
       text-decoration: underline;
+    }
+
+    .nav-links a.active {
+      background-color: white;
+      color: #000;
+    }
+
+    .lang-btn {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      height: 36px;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    .lang-btn:hover {
+      background-color: #eee;
     }
 
     .profile-menu {
@@ -152,6 +158,7 @@
         flex-direction: column;
         margin-top: 10px;
       }
+
       .nav-links a {
         margin: 5px 0;
       }
@@ -168,11 +175,10 @@
 
     <div style="display: flex; align-items: center;">
       <div class="nav-links">
-        <a href="home.html">الرئيسية</a>
+        <a href="home.html" class="active">الرئيسية</a>
         <a href="equipment.html">العهد</a>
         <a href="reports.html">التقارير</a>
         <a href="sched.html">مواعيد الصيانة</a>
-        <button onclick="toggleLanguage()" class="lang-btn">EN</button>
       </div>
 
       <div class="profile-menu">
@@ -190,17 +196,13 @@
     <img src="hands_logo.png" alt="Handshake" style="width: 900;">
     <div class="description">
       نظام العهد الجامعي هو موقع إلكتروني يساعد في إدارة المعدات والأجهزة (العُهَد) داخل الجامعة بطريقة منظمة وسهلة.
-يتيح هذا النظام لأعضاء الهيئة التدريسية والإداريين:
-
-تسجيل الأجهزة أو الأدوات التي تم تسليمها لهم (مثل: حاسوب، طابعة، مكيف...).
-
-معرفة حالة كل عهدة (قيد الاستخدام، تحتاج صيانة، معطلة).
-
-تقديم تقارير أو طلبات صيانة لأي عهدة تواجه مشكلة.
-
-التواصل مع الجهات المسؤولة داخل الجامعة مثل دائرة الصيانة أو تكنولوجيا المعلومات.
-
-النظام يسهل تتبع كل عهدة من لحظة تسليمها وحتى استرجاعها أو صيانتها، مما يزيد من الشفافية ويقلل من الفقد أو الإهمال
+      يتيح هذا النظام لأعضاء الهيئة التدريسية والإداريين:
+      <br><br>
+      • تسجيل الأجهزة أو الأدوات التي تم تسليمها لهم (مثل: حاسوب، طابعة، مكيف...).<br>
+      • معرفة حالة كل عهدة (قيد الاستخدام، تحتاج صيانة، معطلة).<br>
+      • تقديم تقارير أو طلبات صيانة لأي عهدة تواجه مشكلة.<br>
+      • التواصل مع الجهات المسؤولة داخل الجامعة مثل دائرة الصيانة أو تكنولوجيا المعلومات.<br><br>
+      النظام يسهل تتبع كل عهدة من لحظة تسليمها وحتى استرجاعها أو صيانتها، مما يزيد من الشفافية ويقلل من الفقد أو الإهمال.
     </div>
   </div>
 
@@ -224,6 +226,16 @@
         if (dropdown.style.display === "block") {
           dropdown.style.display = "none";
         }
+      }
+    }
+
+    function toggleLanguage() {
+      const current = window.location.href;
+      if (current.includes("_en")) {
+        window.location.href = current.replace("_en", "");
+      } else {
+        const url = current.replace(".html", "_en.html");
+        window.location.href = url;
       }
     }
   </script>

@@ -87,9 +87,17 @@
     input, select {
       width: 100%;
       padding: 10px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      text-align: right;
     }
 
     button {
@@ -150,10 +158,16 @@
           <option value="it">مركز تكنولوجيا المعلومات</option>
           <option value="maintenance">دائرة الصيانة</option>
         </select>
+
         <input type="email" id="email" placeholder="البريد الإلكتروني" required>
         <input type="text" id="phone" placeholder="رقم الهاتف" required>
+
         <input type="password" id="password" placeholder="كلمة السر" required>
+        <div id="password-error" class="error-message"></div>
+
         <input type="password" id="confirmPassword" placeholder="تأكيد كلمة السر" required>
+        <div id="confirm-error" class="error-message"></div>
+
         <button type="submit">إنشاء حساب</button>
       </form>
       <div class="link">
@@ -170,6 +184,7 @@
     </div>
   </footer>
 
+  <!-- جافاسكريبت -->
   <script>
     function toggleLanguage() {
       const current = window.location.href;
@@ -186,14 +201,30 @@
 
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
+      const passwordError = document.getElementById("password-error");
+      const confirmError = document.getElementById("confirm-error");
 
-      if (password !== confirmPassword) {
-        alert("كلمات السر غير متطابقة!");
-        return;
+      // تنظيف الرسائل السابقة
+      passwordError.textContent = "";
+      confirmError.textContent = "";
+
+      let valid = true;
+
+      if (password.length < 8) {
+        passwordError.textContent = "كلمة السر يجب أن تتكون من 8 أحرف على الأقل.";
+        valid = false;
       }
 
+      if (password !== confirmPassword) {
+        confirmError.textContent = "كلمتا السر غير متطابقتين.";
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // لو كل شي تمام
       alert("تم إنشاء الحساب بنجاح!");
-      // هنا يمكن حفظ البيانات أو التوجيه لصفحة أخرى
+      // هنا ممكن توجيه أو حفظ البيانات
     });
   </script>
 

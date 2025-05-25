@@ -45,10 +45,13 @@
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
 
-    .nav-links a:hover {
-      text-decoration: underline;
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
 
     .profile-menu {
@@ -67,7 +70,7 @@
     .dropdown {
       display: none;
       position: absolute;
-      top: 50px;
+      top: 55px;
       left: 0;
       background-color: #fff;
       color: #000;
@@ -97,13 +100,27 @@
 
     h1 {
       font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .btn-print {
+      padding: 10px 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-family: 'Cairo', sans-serif;
+      cursor: pointer;
       margin-bottom: 20px;
+    }
+
+    .btn-print:hover {
+      background-color: darkgreen;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
       background-color: #f9f9f9;
     }
 
@@ -129,85 +146,89 @@
 </head>
 <body>
 
-  <div class="top-bar">
-    <div class="logo">
-      <img src="mini_logo.png" alt="شعار الجامعة">
-      <span>نظام العهد الجامعي</span>
+<div class="top-bar">
+  <div class="logo">
+    <img src="mini_logo.png" alt="شعار الجامعة">
+    <span>نظام العهد الجامعي</span>
+  </div>
+
+  <div style="display: flex; align-items: center;">
+    <div class="nav-links">
+      <a href="admin_home.html">الرئيسية</a>
+      <a href="admin_users.html">المستخدمون</a>
+      <a href="admin_equipment.html">المعدات</a>
+      <a href="admin_reports.html" class="active">التقارير</a>
     </div>
 
-    <div style="display: flex; align-items: center;">
-      <div class="nav-links">
-        <a href="admin_home.html">الرئيسية</a>
-        <a href="admin_users.html">المستخدمون</a>
-        <a href="admin_equipment.html">المعدات</a>
-        
-        <a href="admin_reports.html">التقارير</a>
-      </div>
-
-      <div class="profile-menu">
-        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
-        <div class="dropdown" id="dropdown-menu">
-          <a href="settings.html">الإعدادات</a>
-          <a href="login.html">تسجيل الخروج</a>
-        </div>
+    <div class="profile-menu">
+      <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+      <div class="dropdown" id="dropdown-menu">
+        <a href="settings.html">الإعدادات</a>
+        <a href="login.html">تسجيل الخروج</a>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="main-content">
-    <h1>تقارير المستخدمين</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>نوع التقرير</th>
-          <th>المحتوى</th>
-          <th>الجهة المستقبلة</th>
-          <th>تاريخ الإرسال</th>
-        </tr>
-      </thead>
-      <tbody id="reportTableBody">
-        <!-- سيتم تعبئتها بواسطة الجافاسكربت -->
-      </tbody>
-    </table>
-  </div>
+<div class="main-content">
+  <h1>تقارير المستخدمين</h1>
+  <button class="btn-print" onclick="window.print()">🖨️ طباعة التقارير</button>
 
-  <footer class="footer">
-    <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
-    <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
-  </footer>
+  <table>
+    <thead>
+      <tr>
+        <th>نوع التقرير</th>
+        <th>المحتوى</th>
+        <th>الجهة المستقبلة</th>
+        <th>الجهة المرسلة</th>
+        <th>تاريخ الإرسال</th>
+      </tr>
+    </thead>
+    <tbody id="reportTableBody">
+      <!-- سيتم تعبئتها بواسطة الجافاسكربت -->
+    </tbody>
+  </table>
+</div>
 
-  <script>
-    function toggleDropdown() {
+<footer class="footer">
+  <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+  <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+</footer>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdown-menu");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  window.onclick = function(e) {
+    if (!e.target.matches('.profile-icon')) {
       const dropdown = document.getElementById("dropdown-menu");
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    }
-
-    window.onclick = function(e) {
-      if (!e.target.matches('.profile-icon')) {
-        const dropdown = document.getElementById("dropdown-menu");
-        if (dropdown && dropdown.style.display === "block") {
-          dropdown.style.display = "none";
-        }
+      if (dropdown && dropdown.style.display === "block") {
+        dropdown.style.display = "none";
       }
     }
+  }
 
-    const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
-    const tbody = document.getElementById("reportTableBody");
+  const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
+  const tbody = document.getElementById("reportTableBody");
 
-    if (reports.length === 0) {
-      tbody.innerHTML = "<tr><td colspan='4'>لا توجد تقارير حالياً.</td></tr>";
-    } else {
-      reports.forEach(report => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${report.type}</td>
-          <td>${report.content}</td>
-          <td>${report.recipient}</td>
-          <td>${report.date}</td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-  </script>
+  if (reports.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='5'>لا توجد تقارير حالياً.</td></tr>";
+  } else {
+    reports.forEach(report => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${report.type}</td>
+        <td>${report.content}</td>
+        <td>${report.recipient}</td>
+        <td>${report.user || "غير معروف"}</td>
+        <td>${report.date}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+</script>
+
 </body>
 </html>

@@ -47,6 +47,13 @@
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
 
     .profile-menu {
@@ -113,10 +120,19 @@
       border-radius: 5px;
       cursor: pointer;
       font-family: 'Cairo', sans-serif;
+      margin-right: 5px;
     }
 
     .btn:hover {
       background-color: darkgreen;
+    }
+
+    .btn-delete {
+      background-color: red;
+    }
+
+    .btn-delete:hover {
+      background-color: darkred;
     }
 
     table {
@@ -147,59 +163,66 @@
 </head>
 <body>
 
-  <div class="top-bar">
-    <div class="logo">
-      <img src="mini_logo.png" alt="شعار الجامعة">
-      <span>نظام العهد الجامعي</span>
+<div class="top-bar">
+  <div class="logo">
+    <img src="mini_logo.png" alt="شعار الجامعة">
+    <span>نظام العهد  الجامعي</span>
+  </div>
+
+  <div style="display: flex; align-items: center;">
+    <div class="nav-links">
+      <a href="maintenance_home.html">الرئيسية</a>
+      <a href="maintenance_sched.html" class="active">المواعيد</a>
+      <a href="maintenance_reports.html">التقارير</a>
     </div>
 
-    <div style="display: flex; align-items: center;">
-      <div class="nav-links">
-        <a href="maintenance_home.html">الرئيسية</a>
-        <a href="maintenance_sched.html">المواعيد</a>
-        <a href="maintenance_reports.html">التقارير</a>
-      </div>
-
-      <div class="profile-menu">
-        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
-        <div class="dropdown" id="dropdown-menu">
-          <a href="settings.html">الإعدادات</a>
-          <a href="login.html">تسجيل الخروج</a>
-        </div>
+    <div class="profile-menu">
+      <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+      <div class="dropdown" id="dropdown-menu">
+        <a href="settings.html">الإعدادات</a>
+        <a href="login.html">تسجيل الخروج</a>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="main-content">
-    <h2>إضافة موعد صيانة</h2>
-    <div class="form-section">
-      <input type="date" id="date" />
-      <input type="time" id="time" />
-      <select id="recipient">
-        <option value="">اختر المستخدم الذي أرسل التقرير</option>
-      </select>
-      <button class="btn" onclick="addAppointment()">إرسال الموعد</button>
-    </div>
-
-    <h2>قائمة المواعيد</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>التاريخ</th>
-          <th>الوقت</th>
-          <th>اسم المستخدم</th>
-        </tr>
-      </thead>
-      <tbody id="scheduleTableBody"></tbody>
-    </table>
+<div class="main-content">
+  <h2>إضافة موعد صيانة</h2>
+  <div class="form-section">
+    <input type="date" id="date" />
+    <input type="time" id="time" />
+    <select id="recipient">
+      <option value="">اختر المستخدم الذي أرسل التقرير</option>
+    </select>
+    <button class="btn" onclick="addAppointment()">إرسال الموعد</button>
+    <button class="btn" onclick="window.print()">طباعة الجدول</button>
   </div>
 
-  <footer class="footer">
-    <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
-    <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
-  </footer>
+  <h2>قائمة المواعيد</h2>
+  <label for="filter">تصفية حسب المستخدم:</label>
+  <select id="filter" onchange="renderAppointments()">
+    <option value="">الكل</option>
+  </select>
 
-  <script>
+  <table>
+    <thead>
+      <tr>
+        <th>التاريخ</th>
+        <th>الوقت</th>
+        <th>اسم المستخدم</th>
+        <th>الإجراء</th>
+      </tr>
+    </thead>
+    <tbody id="scheduleTableBody"></tbody>
+  </table>
+</div>
+
+<footer class="footer">
+  <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
+  <p>العنوان: جبيهة، عمان، الأردن | الهاتف: 06-5355000 | البريد الإلكتروني: info@ju.edu.jo</p>
+</footer>
+
+<script>
   function toggleDropdown() {
     const dropdown = document.getElementById("dropdown-menu");
     dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
@@ -217,25 +240,38 @@
   const appointments = JSON.parse(localStorage.getItem("maintenanceAppointments") || "[]");
   const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
 
-  const maintenanceUsers = reports
-    .filter(r => r.recipient === "دائرة الصيانة")
-    .map(r => r.user)
-    .filter((v, i, a) => a.indexOf(v) === i); // Unique users
+  const maintenanceUsers = [...new Set(reports.filter(r => r.recipient === "دائرة الصيانة").map(r => r.user))];
 
   const select = document.getElementById("recipient");
+  const filterSelect = document.getElementById("filter");
+
   maintenanceUsers.forEach(user => {
     const option = document.createElement("option");
     option.value = user;
     option.textContent = user;
     select.appendChild(option);
+
+    const filterOption = option.cloneNode(true);
+    filterSelect.appendChild(filterOption);
   });
 
   function renderAppointments() {
     const tbody = document.getElementById("scheduleTableBody");
     tbody.innerHTML = "";
-    appointments.forEach(app => {
+    const filterValue = filterSelect.value;
+
+    appointments.forEach((app, index) => {
+      if (filterValue && app.recipient !== filterValue) return;
+
       const row = document.createElement("tr");
-      row.innerHTML = `<td>${app.date}</td><td>${app.time}</td><td>${app.recipient}</td>`;
+      row.innerHTML = `
+        <td>${app.date}</td>
+        <td>${app.time}</td>
+        <td>${app.recipient}</td>
+        <td>
+          <button class="btn btn-delete" onclick="deleteAppointment(${index})">حذف</button>
+        </td>
+      `;
       tbody.appendChild(row);
     });
   }
@@ -245,14 +281,18 @@
     const time = document.getElementById("time").value;
     const recipient = document.getElementById("recipient").value;
 
+    if (appointments.some(app => app.date === date && app.time === time)) {
+      alert("يوجد موعد آخر في هذا الوقت!");
+      return;
+    }
+
     if (date && time && recipient) {
       const newApp = { date, time, from: "دائرة الصيانة", recipient };
-
       appointments.push(newApp);
       localStorage.setItem("maintenanceAppointments", JSON.stringify(appointments));
 
       const userAppointments = JSON.parse(localStorage.getItem("userAppointments") || "[]");
-      userAppointments.push(newApp); // same object
+      userAppointments.push(newApp);
       localStorage.setItem("userAppointments", JSON.stringify(userAppointments));
 
       renderAppointments();
@@ -262,9 +302,15 @@
     }
   }
 
+  function deleteAppointment(index) {
+    if (confirm("هل أنت متأكد من حذف هذا الموعد؟")) {
+      appointments.splice(index, 1);
+      localStorage.setItem("maintenanceAppointments", JSON.stringify(appointments));
+      renderAppointments();
+    }
+  }
+
   renderAppointments();
 </script>
-
-
 </body>
 </html>

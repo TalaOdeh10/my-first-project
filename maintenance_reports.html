@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>تقارير الصيانة - دائرة الصيانة</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
   <style>
@@ -47,10 +46,17 @@
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
 
     .nav-links a:hover {
       text-decoration: underline;
+    }
+
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
 
     .profile-menu {
@@ -114,6 +120,14 @@
       font-weight: bold;
     }
 
+    .highlight-followup {
+      background-color: #fff7d1;
+    }
+
+    .highlight-notify {
+      background-color: #d1f7d6;
+    }
+
     .footer {
       padding: 15px;
       background-color: #000;
@@ -135,7 +149,7 @@
     <div class="nav-links">
       <a href="maintenance_home.html">الرئيسية</a>
       <a href="maintenance_sched.html">المواعيد</a>
-      <a href="maintenance_reports.html">التقارير</a>
+      <a href="maintenance_reports.html" class="active">التقارير</a>
     </div>
 
     <div class="profile-menu">
@@ -156,6 +170,7 @@
         <th>نوع التقرير</th>
         <th>المحتوى</th>
         <th>الجهة المستقبلة</th>
+        <th>الجهة المرسلة</th>
         <th>تاريخ الاستقبال</th>
       </tr>
     </thead>
@@ -189,14 +204,23 @@
   const tbody = document.getElementById("reportTableBody");
 
   if (reports.length === 0) {
-    tbody.innerHTML = "<tr><td colspan='4'>لا توجد تقارير حالياً.</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='5'>لا توجد تقارير حالياً.</td></tr>";
   } else {
     reports.forEach((report) => {
       const row = document.createElement("tr");
+
+      // إضافة لون مميز حسب نوع التقرير
+      if (report.type === "متابعة") {
+        row.classList.add("highlight-followup");
+      } else if (report.type === "إشعار") {
+        row.classList.add("highlight-notify");
+      }
+
       row.innerHTML = `
         <td>${report.type}</td>
         <td>${report.content}</td>
         <td>${report.recipient}</td>
+        <td>${report.user}</td>
         <td>${report.date}</td>
       `;
       tbody.appendChild(row);

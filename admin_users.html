@@ -21,6 +21,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
     .logo {
       display: flex;
@@ -33,17 +34,23 @@
     .nav-links {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
     }
     .nav-links a {
       color: white;
-      margin: 0 15px;
+      margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
     .profile-menu {
       position: relative;
-      display: flex;
-      align-items: center;
+      margin-right: 40px;
     }
     .profile-icon {
       width: 80px;
@@ -64,6 +71,15 @@
       text-align: right;
       z-index: 100;
     }
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: #000;
+    }
+    .dropdown a:hover {
+      background-color: #eee;
+    }
     .main-content {
       flex: 1;
       padding: 30px;
@@ -81,6 +97,7 @@
       z-index: 1000;
       border-radius: 8px;
       width: 300px;
+      text-align: center;
     }
     table {
       width: 100%;
@@ -100,6 +117,36 @@
       padding: 15px 10px;
       font-size: 14px;
     }
+    .btn {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 5px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-add {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-add:hover {
+      background-color: #0056b3;
+    }
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+    }
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+    .btn-print {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-print:hover {
+      background-color: #218838;
+    }
   </style>
 </head>
 <body>
@@ -108,24 +155,37 @@
       <img src="mini_logo.png" alt="شعار الجامعة">
       <span>نظام العهد الجامعي</span>
     </div>
-    <div class="nav-links">
-      <a href="admin_home.html">الرئيسية</a>
-      <a href="admin_users.html">المستخدمون</a>
-      <a href="admin_equipment.html">المعدات</a>
-      <a href="admin_reports.html">التقارير</a>
+    <div style="display: flex; align-items: center;">
+      <div class="nav-links">
+        <a href="admin_home.html">الرئيسية</a>
+        <a href="admin_users.html" class="active">المستخدمون</a>
+        <a href="admin_equipment.html">المعدات</a>
+        <a href="admin_reports.html">التقارير</a>
+      </div>
+      <div class="profile-menu">
+        <img src="user_icon.png" alt="المستخدم" class="profile-icon" onclick="toggleDropdown()" />
+        <div class="dropdown" id="dropdown-menu">
+          <a href="settings.html">الإعدادات</a>
+          <a href="login.html">تسجيل الخروج</a>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="main-content">
     <h1>إدارة المستخدمين</h1>
-    <button onclick="document.getElementById('userForm').style.display='block'">+ إضافة مستخدم</button>
+    <button class="btn btn-add" onclick="document.getElementById('userForm').style.display='block'">+ إضافة مستخدم</button>
+    <button class="btn btn-print" onclick="window.print()">🖨️ طباعة</button>
 
     <div class="form-popup" id="userForm">
       <h3>إضافة مستخدم جديد</h3>
       <input type="text" id="fullName" placeholder="الاسم الكامل">
       <input type="email" id="email" placeholder="البريد الإلكتروني">
       <input type="text" id="position" placeholder="المسمى الوظيفي">
-      <button onclick="addUser()">إضافة</button>
+      <div>
+        <button class="btn btn-add" onclick="addUser()">إضافة</button>
+        <button class="btn btn-cancel" onclick="document.getElementById('userForm').style.display='none'">إلغاء</button>
+      </div>
     </div>
 
     <table id="userTable">
@@ -149,30 +209,53 @@
   </footer>
 
   <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("dropdown-menu");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    window.onclick = function(e) {
+      if (!e.target.matches('.profile-icon')) {
+        const dropdown = document.getElementById("dropdown-menu");
+        if (dropdown && dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+
+    function renderUsers() {
+      const table = document.querySelector("#userTable tbody");
+      table.innerHTML = "";
+      const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+      users.forEach(user => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${user.name}</td><td>${user.email}</td><td>${user.position}</td><td><select><option>نشط</option><option>غير نشط</option></select></td>`;
+        table.appendChild(row);
+      });
+    }
+
     function addUser() {
       const name = document.getElementById("fullName").value;
       const email = document.getElementById("email").value;
       const position = document.getElementById("position").value;
 
       if (name && email && position) {
-        const table = document.querySelector("#userTable tbody");
-        const row = document.createElement("tr");
-        row.innerHTML = `<td>${name}</td><td>${email}</td><td>${position}</td><td><select><option>نشط</option><option>غير نشط</option></select></td>`;
-        table.appendChild(row);
-
-        let users = JSON.parse(localStorage.getItem("usersList") || "[]");
-        users.push(name);
+        const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+        users.push({ name, email, position });
         localStorage.setItem("usersList", JSON.stringify(users));
 
         document.getElementById("userForm").style.display = "none";
         document.getElementById("fullName").value = "";
         document.getElementById("email").value = "";
         document.getElementById("position").value = "";
+        renderUsers();
         alert("تمت إضافة المستخدم بنجاح!");
       } else {
         alert("يرجى تعبئة جميع الحقول.");
       }
     }
+
+    document.addEventListener("DOMContentLoaded", renderUsers);
   </script>
 </body>
 </html>

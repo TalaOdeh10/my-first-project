@@ -15,6 +15,7 @@
       flex-direction: column;
       min-height: 100vh;
     }
+
     .top-bar {
       background-color: #000;
       color: white;
@@ -24,38 +25,53 @@
       align-items: center;
       flex-wrap: wrap;
     }
+
     .logo {
       display: flex;
       align-items: center;
     }
+
     .logo img {
       height: 60px;
       margin-left: 10px;
     }
+
     .nav-links {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
     }
+
     .nav-links a {
       color: white;
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
+
     .nav-links a:hover {
       text-decoration: underline;
     }
+
+    .nav-links a.active {
+      background-color: white;
+      color: #000;
+    }
+
     .profile-menu {
       position: relative;
       margin-right: 40px;
     }
+
     .profile-icon {
       width: 80px;
       height: 50px;
       border-radius: 50%;
       cursor: pointer;
     }
+
     .dropdown {
       display: none;
       position: absolute;
@@ -70,6 +86,7 @@
       min-width: 140px;
       text-align: right;
     }
+
     .dropdown a {
       display: block;
       padding: 10px 15px;
@@ -77,19 +94,23 @@
       color: #000;
       font-weight: normal;
     }
+
     .dropdown a:hover {
       background-color: #eee;
     }
+
     .main-content {
       flex: 1;
       padding: 30px;
     }
+
     .page-title {
       font-size: 28px;
       color: #333;
       margin-bottom: 20px;
       text-align: right;
     }
+
     .search-bar {
       width: 100%;
       max-width: 300px;
@@ -99,23 +120,27 @@
       border: 1px solid #ccc;
       font-family: 'Cairo', sans-serif;
     }
+
     .equipment-table {
       width: 100%;
       border-collapse: collapse;
       background-color: white;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .equipment-table th, 
+
+    .equipment-table th,
     .equipment-table td {
       padding: 12px 15px;
       text-align: right;
       border-bottom: 1px solid #ddd;
     }
+
     .equipment-table th {
       background-color: #f2f2f2;
       font-weight: bold;
       color: #333;
     }
+
     .save-btn {
       background-color: green;
       color: white;
@@ -126,12 +151,14 @@
       font-size: 16px;
       cursor: pointer;
     }
+
     .footer {
       padding: 15px;
       background-color: #000;
       color: white;
       text-align: center;
     }
+
     .footer-content p {
       margin: 5px 0;
       font-size: 14px;
@@ -147,7 +174,7 @@
     <div style="display: flex; align-items: center;">
       <div class="nav-links">
         <a href="home.html">الرئيسية</a>
-        <a href="equipment.html">العهد</a>
+        <a href="equipment.html" class="active">العهد</a>
         <a href="reports.html">التقارير</a>
         <a href="sched.html">مواعيد الصيانة</a>
       </div>
@@ -212,7 +239,6 @@
       });
     });
 
-    // Load equipment data
     let equipmentList = JSON.parse(localStorage.getItem("userEquipment") || "[]");
     const tbody = document.getElementById("equipmentBody");
 

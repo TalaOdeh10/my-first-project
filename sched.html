@@ -46,10 +46,17 @@
       margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
 
     .nav-links a:hover {
       text-decoration: underline;
+    }
+
+    .nav-links a.active {
+      background-color: white;
+      color: black;
     }
 
     .profile-menu {
@@ -157,7 +164,7 @@
       <a href="home.html">الرئيسية</a>
       <a href="equipment.html">العهد</a>
       <a href="reports.html">التقارير</a>
-      <a href="sched.html">مواعيد الصيانة</a>
+      <a href="sched.html" class="active">مواعيد الصيانة</a>
     </div>
 
     <div class="profile-menu">
@@ -228,21 +235,58 @@
         <td>${app.from}</td>
         <td>${reason}</td>
         <td>
-          <button class="btn btn-accept" onclick="respondToAppointment('accept', '${app.date}', '${app.time}')">موافق</button>
-          <button class="btn btn-reject" onclick="respondToAppointment('reschedule', '${app.date}', '${app.time}')">موعد جديد</button>
+          <button class="btn btn-accept" onclick="respondToAppointment('accept', '${app.date}', '${app.time}', this)">موافق</button>
+          <button class="btn btn-reject" onclick="respondToAppointment('reschedule', '${app.date}', '${app.time}', this)">موعد جديد</button>
         </td>
       `;
       tbody.appendChild(row);
     });
   }
 
-  function respondToAppointment(action, date, time) {
-    const responses = JSON.parse(localStorage.getItem("appointmentResponses") || "[]");
-    const newResponse = { date, time, response: action, timestamp: new Date().toISOString() };
-    responses.push(newResponse);
-    localStorage.setItem("appointmentResponses", JSON.stringify(responses));
-    alert(action === "accept" ? "تمت الموافقة على الموعد." : "تم طلب موعد جديد.");
+  function respondToAppointment(action, date, time, btn) {
+  const responses = JSON.parse(localStorage.getItem("appointmentResponses") || "[]");
+
+  // تحديث الخلية
+  const cell = btn.parentElement;
+  cell.innerHTML = `<strong>${action === 'accept' ? "تمت الموافقة" : "بانتظار موعد جديد"}</strong>`;
+
+  // حفظ الرد
+  const newResponse = { date, time, response: action, timestamp: new Date().toISOString() };
+  responses.push(newResponse);
+  localStorage.setItem("appointmentResponses", JSON.stringify(responses));
+
+  // إرسال تقرير لدائرة الصيانة
+  const username = localStorage.getItem("loggedInUser") || "مستخدم غير معروف";
+  const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
+
+  let newReport = null;
+
+  if (action === "reschedule") {
+    newReport = {
+      user: username,
+      type: "متابعة",
+      content: `طلب المستخدم موعداً جديداً بدلاً من ${date} الساعة ${time}`,
+      recipient: "دائرة الصيانة",
+      date: new Date().toISOString().split("T")[0]
+    };
+  } else if (action === "accept") {
+    newReport = {
+      user: username,
+      type: "إشعار",
+      content: `تمت الموافقة على الموعد بتاريخ ${date} الساعة ${time}`,
+      recipient: "دائرة الصيانة",
+      date: new Date().toISOString().split("T")[0]
+    };
   }
+
+  if (newReport) {
+    reports.push(newReport);
+    localStorage.setItem("userReports", JSON.stringify(reports));
+  }
+
+  alert(action === "accept" ? "تمت الموافقة على الموعد." : "تم طلب موعد جديد.");
+}
+
 
   renderAppointments();
 </script>

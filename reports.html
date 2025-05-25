@@ -15,53 +15,70 @@
       flex-direction: column;
       min-height: 100vh;
     }
+
     .top-bar {
       background-color: #000;
       color: white;
-      padding: 10px 30px;
+      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       direction: rtl;
     }
+
     .logo-title {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .logo-title img {
       height: 60px;
     }
+
     .left-section {
       display: flex;
       align-items: center;
       gap: 25px;
     }
+
     .nav-links {
       display: flex;
       gap: 20px;
       align-items: center;
     }
+
     .nav-links a {
       color: white;
       text-decoration: none;
       font-weight: bold;
       font-size: 16px;
+      padding: 6px 10px;
+      border-radius: 5px;
     }
+
     .nav-links a:hover {
       text-decoration: underline;
     }
+
+    .nav-links a.active {
+      background-color: white;
+      color: black;
+    }
+
     .profile-menu {
       position: relative;
       display: flex;
       align-items: center;
     }
+
     .profile-icon {
       width: 80px;
       height: 50px;
       border-radius: 50%;
       cursor: pointer;
     }
+
     .dropdown {
       display: none;
       position: absolute;
@@ -75,15 +92,18 @@
       text-align: right;
       z-index: 100;
     }
+
     .dropdown a {
       display: block;
       padding: 10px;
       text-decoration: none;
       color: #000;
     }
+
     .dropdown a:hover {
       background-color: #f0f0f0;
     }
+
     .container {
       max-width: 600px;
       margin: 80px auto;
@@ -93,15 +113,18 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       flex: 1;
     }
+
     h2 {
       text-align: center;
       margin-bottom: 20px;
     }
+
     label {
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
     }
+
     input[type="text"],
     select,
     textarea {
@@ -112,6 +135,7 @@
       border: 1px solid #ccc;
       font-family: 'Cairo', sans-serif;
     }
+
     button {
       background-color: #000;
       color: white;
@@ -122,9 +146,11 @@
       cursor: pointer;
       width: 100%;
     }
+
     button:hover {
       background-color: #333;
     }
+
     .footer {
       background-color: #000;
       color: white;
@@ -132,6 +158,7 @@
       padding: 15px 10px;
       font-size: 14px;
     }
+
     .footer-content {
       max-width: 1000px;
       margin: 0 auto;
@@ -139,6 +166,8 @@
   </style>
 </head>
 <body>
+
+  <!-- الشريط العلوي -->
   <div class="top-bar">
     <div class="logo-title">
       <img src="mini_logo.png" alt="شعار الجامعة">
@@ -148,7 +177,7 @@
       <div class="nav-links">
         <a href="home.html">الرئيسية</a>
         <a href="equipment.html">العهد</a>
-        <a href="reports.html">التقارير</a>
+        <a href="reports.html" class="active">التقارير</a>
         <a href="sched.html">مواعيد الصيانة</a>
       </div>
       <div class="profile-menu">
@@ -161,6 +190,7 @@
     </div>
   </div>
 
+  <!-- محتوى الصفحة -->
   <div class="container">
     <h2>إضافة تقرير جديد</h2>
     <form id="reportForm">
@@ -193,6 +223,7 @@
     </form>
   </div>
 
+  <!-- الفوتر -->
   <footer class="footer">
     <div class="footer-content">
       <p>© 2025 الجامعة الأردنية - جميع الحقوق محفوظة</p>
@@ -200,6 +231,7 @@
     </div>
   </footer>
 
+  <!-- السكريبت -->
   <script>
     function toggleDropdown() {
       const dropdown = document.getElementById("dropdown-menu");
@@ -233,5 +265,6 @@
       this.reset();
     });
   </script>
+
 </body>
 </html>

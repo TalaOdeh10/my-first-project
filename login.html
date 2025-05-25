@@ -50,12 +50,13 @@
       background-color: #fff;
       color: #000;
       border: none;
-      height: 36px;
-      width: 50px;
-      padding: 6px 12px;
+      height: 30px;
+      width: 45px;
+      padding: 4px 8px;
       border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
+      font-size: 12px;
     }
 
     .lang-btn:hover {
@@ -114,6 +115,14 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 14px;
+    }
+
+    #password-error {
+      color: red;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      text-align: right;
     }
 
     button {
@@ -179,7 +188,8 @@
         <form id="loginForm" onsubmit="goToHome(event)">
           <input type="email" id="email" placeholder="البريد الإلكتروني" required>
           <input type="password" id="password" placeholder="كلمة السر" required>
-          
+          <div id="password-error"></div>
+
           <select id="role" required>
             <option value="">-- نوع المستخدم --</option>
             <option value="admin">مدير النظام</option>
@@ -219,11 +229,25 @@
       event.preventDefault();
 
       const role = document.getElementById("role").value;
+      const password = document.getElementById("password").value;
+      const errorBox = document.getElementById("password-error");
+
+      // إخفاء رسالة الخطأ السابقة
+      errorBox.textContent = "";
+
+      // تحقق من الدور
       if (!role) {
         alert("يرجى اختيار نوع المستخدم");
         return;
       }
 
+      // تحقق من طول كلمة السر
+      if (password.length < 8) {
+        errorBox.textContent = "كلمة السر يجب أن تكون 8 أحرف على الأقل";
+        return;
+      }
+
+      // حفظ الدور وتوجيه المستخدم
       localStorage.setItem("userRole", role);
 
       if (role === "admin") {
