@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>نظام العهد الجامعي</title>
+  <title>دائرة الخدمات المساندة - نظام العهد الجامعي</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
   <style>
     body {
@@ -15,7 +15,6 @@
       flex-direction: column;
       min-height: 100vh;
     }
-
     .top-bar {
       background-color: #000;
       color: white;
@@ -23,25 +22,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
     }
-
     .logo {
       display: flex;
       align-items: center;
     }
-
     .logo img {
       height: 60px;
       margin-left: 10px;
     }
-
     .nav-links {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
     }
-
     .nav-links a {
       color: white;
       margin: 0 10px;
@@ -50,46 +43,20 @@
       padding: 6px 10px;
       border-radius: 5px;
     }
-
-    .nav-links a:hover {
-      text-decoration: underline;
-    }
-
     .nav-links a.active {
       background-color: white;
-      color: #000;
+      color: black;
     }
-
-    .lang-btn {
-      background-color: #fff;
-      color: #000;
-      border: none;
-      height: 36px;
-      padding: 6px 12px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
-    .lang-btn:hover {
-      background-color: #eee;
-    }
-
     .profile-menu {
       position: relative;
       margin-right: 40px;
     }
-
     .profile-icon {
       width: 80px;
       height: 50px;
-      padding: 0%;
-      margin: 0%;
       border-radius: 50%;
       cursor: pointer;
     }
-
     .dropdown {
       display: none;
       position: absolute;
@@ -99,69 +66,49 @@
       color: #000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       border-radius: 6px;
-      overflow: hidden;
-      z-index: 100;
       min-width: 140px;
       text-align: right;
+      z-index: 100;
     }
-
     .dropdown a {
       display: block;
       padding: 10px 15px;
       text-decoration: none;
       color: #000;
-      font-weight: normal;
     }
-
     .dropdown a:hover {
       background-color: #eee;
     }
-
     .main {
       flex: 1;
       text-align: center;
       padding: 60px 20px 20px;
     }
-
     .main h1 {
       font-size: 32px;
       margin-bottom: 10px;
     }
-
     .main img {
-      width: 100px;
+      width: 90px;
       margin: 20px 0;
     }
-
     .description {
       max-width: 600px;
       margin: 0 auto;
       font-size: 18px;
       color: #333;
       line-height: 1.7;
+      text-align: justify;
     }
-
     .footer {
       padding: 15px;
       background-color: #000;
       color: white;
       text-align: center;
     }
-
     .footer-content p {
       margin: 5px 0;
       font-size: 14px;
-    }
-
-    @media (max-width: 600px) {
-      .nav-links {
-        flex-direction: column;
-        margin-top: 10px;
-      }
-
-      .nav-links a {
-        margin: 5px 0;
-      }
     }
   </style>
 </head>
@@ -175,10 +122,9 @@
 
     <div style="display: flex; align-items: center;">
       <div class="nav-links">
-        <a href="home.html" class="active">الرئيسية</a>
-        <a href="equipment.html">العهد</a>
-        <a href="reports.html">التقارير</a>
-        <a href="sched.html">مواعيد الصيانة</a>
+        <a href="support_home.html" class="active">الرئيسية</a>
+        <a href="support_sched.html">المواعيد</a>
+        <a href="support_reports.html">التقارير</a>
       </div>
 
       <div class="profile-menu">
@@ -192,17 +138,14 @@
   </div>
 
   <div class="main">
-    <h1>اهلا بك في نظام تتبع المعدات الجامعي</h1>
-    <img src="hands_logo.png" alt="Handshake" style="width: 900;">
+    <h1>مرحبًا بك في دائرة الخدمات المساندة</h1>
+    <img src="hands_logo.png" alt="Handshake">
     <div class="description">
-      نظام العهد الجامعي هو موقع إلكتروني يساعد في إدارة المعدات والأجهزة (العُهَد) داخل الجامعة بطريقة منظمة وسهلة.
-      يتيح هذا النظام لأعضاء الهيئة التدريسية والإداريين:
-      <br><br>
-      • تسجيل الأجهزة أو الأدوات التي تم تسليمها لهم (مثل: حاسوب، طابعة، مكيف...).<br>
-      • معرفة حالة كل عهدة (قيد الاستخدام، تحتاج صيانة، معطلة).<br>
-      • تقديم تقارير أو طلبات صيانة لأي عهدة تواجه مشكلة.<br>
-      • التواصل مع الجهات المسؤولة داخل الجامعة مثل دائرة الصيانة أو تكنولوجيا المعلومات.<br><br>
-      النظام يسهل تتبع كل عهدة من لحظة تسليمها وحتى استرجاعها أو صيانتها، مما يزيد من الشفافية ويقلل من الفقد أو الإهمال.
+      هذه الصفحة مخصصة لفريق الخدمات المساندة لتنظيم وإدارة العُهد المتعلقة بخدمات الجامعة.<br><br>
+      • استقبال بلاغات تخص النظافة، المرافق، الأثاث، وغيرها<br>
+      • تحديد مواعيد المتابعة والتنظيف أو الإصلاح<br>
+      • مراجعة تقارير الصيانة العامة<br>
+      • تسهيل تنظيم الخدمات المساندة بشكل دقيق وفعّال
     </div>
   </div>
 
@@ -219,23 +162,12 @@
       dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
     }
 
-    // إغلاق القائمة إذا كبس المستخدم خارجها
     window.onclick = function(e) {
       if (!e.target.matches('.profile-icon')) {
         const dropdown = document.getElementById("dropdown-menu");
-        if (dropdown.style.display === "block") {
+        if (dropdown && dropdown.style.display === "block") {
           dropdown.style.display = "none";
         }
-      }
-    }
-
-    function toggleLanguage() {
-      const current = window.location.href;
-      if (current.includes("_en")) {
-        window.location.href = current.replace("_en", "");
-      } else {
-        const url = current.replace(".html", "_en.html");
-        window.location.href = url;
       }
     }
   </script>

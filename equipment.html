@@ -141,8 +141,8 @@
       color: #333;
     }
 
-    .save-btn {
-      background-color: green;
+    .print-btn {
+      background-color: #007bff;
       color: white;
       padding: 10px 20px;
       margin-top: 20px;
@@ -150,6 +150,10 @@
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
+    }
+
+    .print-btn:hover {
+      background-color: #0056b3;
     }
 
     .footer {
@@ -169,7 +173,7 @@
   <div class="top-bar">
     <div class="logo">
       <img src="mini_logo.png" alt="شعار الجامعة">
-      <span>نظام العهد الجامعي</span>
+      <span>نظام تتبع المعدات الجامعي</span>
     </div>
     <div style="display: flex; align-items: center;">
       <div class="nav-links">
@@ -197,15 +201,13 @@
           <th>اسم العهدة</th>
           <th>الكمية</th>
           <th>مصدر العهدة</th>
-          <th>حالة العهدة</th>
-          <th>تاريخ الفحص</th>
         </tr>
       </thead>
       <tbody id="equipmentBody">
-        <!-- سيتم تعبئتها من خلال الجافاسكربت -->
+        <!-- سيتم تعبئته بالجافاسكربت -->
       </tbody>
     </table>
-    <button class="save-btn" onclick="saveChanges()">حفظ التعديلات</button>
+    <button class="print-btn" onclick="window.print()">🖨️ طباعة</button>
   </div>
 
   <footer class="footer">
@@ -245,36 +247,18 @@
     function renderEquipment() {
       tbody.innerHTML = "";
       if (equipmentList.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5">لا توجد معدات مضافة.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3">لا توجد معدات مضافة.</td></tr>`;
       } else {
-        equipmentList.forEach((item, index) => {
+        equipmentList.forEach((item) => {
           const row = document.createElement("tr");
           row.innerHTML = `
             <td>${item.name}</td>
             <td>${item.quantity}</td>
-            <td>${item.owner}</td>
-            <td>
-              <select data-index="${index}">
-                <option${item.status === "قيد الاستخدام" ? " selected" : ""}>قيد الاستخدام</option>
-                <option${item.status === "تحت الصيانة" ? " selected" : ""}>تحت الصيانة</option>
-                <option${item.status === "معطلة" ? " selected" : ""}>معطلة</option>
-              </select>
-            </td>
-            <td>${new Date().toISOString().split("T")[0]}</td>
+            <td>${item.source}</td>
           `;
           tbody.appendChild(row);
         });
       }
-    }
-
-    function saveChanges() {
-      const selects = document.querySelectorAll("select[data-index]");
-      selects.forEach(select => {
-        const index = select.getAttribute("data-index");
-        equipmentList[index].status = select.value;
-      });
-      localStorage.setItem("userEquipment", JSON.stringify(equipmentList));
-      alert("تم حفظ التعديلات بنجاح.");
     }
 
     renderEquipment();

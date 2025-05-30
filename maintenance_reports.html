@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -142,7 +142,7 @@
 <div class="top-bar">
   <div class="logo">
     <img src="mini_logo.png" alt="شعار الجامعة" />
-    <span>نظام العهد الجامعي</span>
+    <span>نظام تتبع المعدات الجامعي</span>
   </div>
 
   <div style="display: flex; align-items: center;">
@@ -163,7 +163,7 @@
 </div>
 
 <div class="main-content">
-  <h1>تقارير الأعطال</h1>
+  <h1>تقارير الأعطال - دائرة الصيانة</h1>
   <table>
     <thead>
       <tr>
@@ -200,7 +200,7 @@
     }
   }
 
-  const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
+  const reports = JSON.parse(localStorage.getItem("دائرة الصيانة_Reports") || "[]");
   const tbody = document.getElementById("reportTableBody");
 
   if (reports.length === 0) {
@@ -209,7 +209,6 @@
     reports.forEach((report) => {
       const row = document.createElement("tr");
 
-      // إضافة لون مميز حسب نوع التقرير
       if (report.type === "متابعة") {
         row.classList.add("highlight-followup");
       } else if (report.type === "إشعار") {

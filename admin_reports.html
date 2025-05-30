@@ -149,7 +149,7 @@
 <div class="top-bar">
   <div class="logo">
     <img src="mini_logo.png" alt="شعار الجامعة">
-    <span>نظام العهد الجامعي</span>
+    <span>نظام تتبع المعدات الجامعي</span>
   </div>
 
   <div style="display: flex; align-items: center;">
@@ -210,7 +210,8 @@
     }
   }
 
-  const reports = JSON.parse(localStorage.getItem("userReports") || "[]");
+  // ✅ التعديل هنا: قراءة تقارير مدير النظام فقط
+  const reports = JSON.parse(localStorage.getItem("adminReports") || "[]");
   const tbody = document.getElementById("reportTableBody");
 
   if (reports.length === 0) {
@@ -229,6 +230,7 @@
     });
   }
 </script>
+
 
 </body>
 </html>

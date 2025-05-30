@@ -194,7 +194,9 @@
             <option value="">-- نوع المستخدم --</option>
             <option value="admin">مدير النظام</option>
             <option value="user">مستخدم عادي</option>
-            <option value="maintenance">دائرة الصيانة والخدمات</option>
+            <option value="maintenance">دائرة الصيانة</option>
+            <option value="it">دائرة تكنولوجيا المعلومات</option>
+            <option value="support">دائرة الخدمات المساندة</option>
           </select>
 
           <button type="submit">تسجيل الدخول</button>
@@ -232,30 +234,37 @@
       const password = document.getElementById("password").value;
       const errorBox = document.getElementById("password-error");
 
-      // إخفاء رسالة الخطأ السابقة
       errorBox.textContent = "";
 
-      // تحقق من الدور
       if (!role) {
         alert("يرجى اختيار نوع المستخدم");
         return;
       }
 
-      // تحقق من طول كلمة السر
       if (password.length < 8) {
         errorBox.textContent = "كلمة السر يجب أن تكون 8 أحرف على الأقل";
         return;
       }
 
-      // حفظ الدور وتوجيه المستخدم
       localStorage.setItem("userRole", role);
 
-      if (role === "admin") {
-        window.location.href = "admin_home.html";
-      } else if (role === "maintenance") {
-        window.location.href = "maintenance_home.html";
-      } else {
-        window.location.href = "home.html";
+      // التوجيه حسب الدور المختار
+      switch (role) {
+        case "admin":
+          window.location.href = "admin_home.html";
+          break;
+        case "maintenance":
+          window.location.href = "maintenance_home.html";
+          break;
+        case "it":
+          window.location.href = "it_home.html";
+          break;
+        case "support":
+          window.location.href = "support_home.html";
+          break;
+        default:
+          window.location.href = "home.html";
+          break;
       }
     }
   </script>

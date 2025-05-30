@@ -5,156 +5,35 @@
   <title>المعدات - مدير النظام</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .top-bar {
-      background-color: #000;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-    .logo img {
-      height: 60px;
-      margin-left: 10px;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-    }
-    .nav-links a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 6px 10px;
-      border-radius: 5px;
-    }
-    .nav-links a.active {
-      background-color: white;
-      color: black;
-    }
-    .profile-menu {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .profile-icon {
-      width: 80px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 55px;
-      left: 0;
-      background-color: white;
-      color: black;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      min-width: 150px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 1000;
-      text-align: right;
-    }
-    .dropdown a {
-      display: block;
-      padding: 10px 15px;
-      color: black;
-      text-decoration: none;
-    }
-    .main-content {
-      flex: 1;
-      padding: 30px;
-      text-align: center;
-    }
-    .add-button, .print-button {
-      margin: 10px 5px;
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .add-button:hover, .print-button:hover {
-      background-color: darkgreen;
-    }
-    .filter-select {
-      margin-bottom: 20px;
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      background-color: #f9f9f9;
-    }
-    th, td {
-      padding: 12px 15px;
-      border: 1px solid #ccc;
-      text-align: center;
-    }
-    th {
-      background-color: #f0f0f0;
-      font-weight: bold;
-    }
-    .form-popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: white;
-      border: 2px solid #000;
-      padding: 20px;
-      z-index: 1000;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-      text-align: right;
-      width: 350px;
-    }
-    .form-popup input, .form-popup select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .form-popup .form-actions {
-      display: flex;
-      justify-content: space-between;
-    }
-    .footer {
-      background-color: #000;
-      color: white;
-      text-align: center;
-      padding: 15px 10px;
-    }
+    body { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; background-color: #fff; display: flex; flex-direction: column; min-height: 100vh; }
+    .top-bar { background-color: #000; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; }
+    .logo img { height: 60px; margin-left: 10px; }
+    .nav-links { display: flex; align-items: center; }
+    .nav-links a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; padding: 6px 10px; border-radius: 5px; }
+    .nav-links a.active { background-color: white; color: black; }
+    .profile-menu { position: relative; display: flex; align-items: center; }
+    .profile-icon { width: 80px; height: 50px; border-radius: 50%; cursor: pointer; }
+    .dropdown { display: none; position: absolute; top: 55px; left: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 6px; min-width: 150px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 1000; text-align: right; }
+    .dropdown a { display: block; padding: 10px 15px; color: black; text-decoration: none; }
+    .main-content { flex: 1; padding: 30px; text-align: center; }
+    .add-button, .print-button { margin: 10px 5px; background-color: green; color: white; border: none; padding: 10px 16px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    .add-button:hover, .print-button:hover { background-color: darkgreen; }
+    .filter-select { margin-bottom: 20px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; background-color: #f9f9f9; }
+    th, td { padding: 12px 15px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #f0f0f0; font-weight: bold; }
+    .form-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; border: 2px solid #000; padding: 20px; z-index: 1000; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3); text-align: right; width: 350px; }
+    .form-popup input, .form-popup select { width: 100%; margin-bottom: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    .form-popup .form-actions { display: flex; justify-content: space-between; }
+    .footer { background-color: #000; color: white; text-align: center; padding: 15px 10px; }
   </style>
 </head>
 <body>
   <div class="top-bar">
     <div class="logo">
       <img src="mini_logo.png" alt="شعار الجامعة">
-      <span>نظام العهد الجامعي</span>
+      <span>نظام تتبع المعدات الجامعي</span>
     </div>
     <div style="display: flex; align-items: center;">
       <div class="nav-links">
@@ -209,6 +88,7 @@
           <th>الحالة</th>
           <th>للمستخدم</th>
           <th>مصدر العهدة</th>
+          <th>حذف</th>
         </tr>
       </thead>
       <tbody id="equipmentBody"></tbody>
@@ -233,28 +113,47 @@
     }
 
     function addEquipment() {
-      const name = document.getElementById("equipName").value;
-      const qty = document.getElementById("quantity").value;
-      const status = document.getElementById("status").value;
-      const owner = document.getElementById("ownerSelect").value;
-      const source = document.getElementById("sourceSelect").value;
+  const name = document.getElementById("equipName").value;
+  const qty = document.getElementById("quantity").value;
+  const status = document.getElementById("status").value;
+  const owner = document.getElementById("ownerSelect").value;
+  const source = document.getElementById("sourceSelect").value;
 
-      if (name && qty && status && owner && source) {
-        const newEquip = { name, quantity: qty, status, owner, source };
-        const allEquip = JSON.parse(localStorage.getItem("userEquipment") || "[]");
-        allEquip.push(newEquip);
-        localStorage.setItem("userEquipment", JSON.stringify(allEquip));
+  if (name && qty && status && owner && source) {
+    const newEquip = { name, quantity: qty, status, owner, source };
 
+    // 1. تخزين في جدول المدير
+    const allEquip = JSON.parse(localStorage.getItem("userEquipment") || "[]");
+    allEquip.push(newEquip);
+    localStorage.setItem("userEquipment", JSON.stringify(allEquip));
+
+    // 2. تخزين في جدول معدات المستخدم
+    const userEquipKey = `equipment_${owner}`;
+    const userEquip = JSON.parse(localStorage.getItem(userEquipKey) || "[]");
+    userEquip.push(newEquip);
+    localStorage.setItem(userEquipKey, JSON.stringify(userEquip));
+
+    renderEquipment();
+    document.getElementById("equipmentForm").style.display = "none";
+    document.getElementById("equipName").value = "";
+    document.getElementById("quantity").value = "";
+    document.getElementById("status").value = "";
+    document.getElementById("ownerSelect").value = "";
+    document.getElementById("sourceSelect").value = "";
+
+    alert("تمت إضافة المعدة بنجاح!");
+  } else {
+    alert("يرجى تعبئة جميع الحقول.");
+  }
+}
+
+
+    function deleteEquipment(index) {
+      const data = JSON.parse(localStorage.getItem("userEquipment") || "[]");
+      if (confirm("هل أنت متأكد أنك تريد حذف هذه المعدة؟")) {
+        data.splice(index, 1);
+        localStorage.setItem("userEquipment", JSON.stringify(data));
         renderEquipment();
-        document.getElementById("equipmentForm").style.display = "none";
-        document.getElementById("equipName").value = "";
-        document.getElementById("quantity").value = "";
-        document.getElementById("status").value = "";
-        document.getElementById("ownerSelect").value = "";
-        document.getElementById("sourceSelect").value = "";
-        alert("تمت إضافة المعدة بنجاح!");
-      } else {
-        alert("يرجى تعبئة جميع الحقول.");
       }
     }
 
@@ -263,7 +162,7 @@
       const tbody = document.getElementById("equipmentBody");
       tbody.innerHTML = "";
 
-      data.forEach(equip => {
+      data.forEach((equip, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${equip.name}</td>
@@ -271,6 +170,7 @@
           <td>${equip.status}</td>
           <td>${equip.owner}</td>
           <td>${equip.source}</td>
+          <td><button onclick="deleteEquipment(${index})" style="background-color:red;color:white;padding:5px;border:none;border-radius:4px;">🗑️ حذف</button></td>
         `;
         tbody.appendChild(row);
       });
@@ -288,32 +188,30 @@
     }
 
     function populateUserOptions() {
-  const users = JSON.parse(localStorage.getItem("usersList") || "[]");
-  const ownerSelect = document.getElementById("ownerSelect");
-  const filterSelect = document.getElementById("userFilter");
+      const users = JSON.parse(localStorage.getItem("usersList") || "[]");
+      const ownerSelect = document.getElementById("ownerSelect");
+      const filterSelect = document.getElementById("userFilter");
 
-  ownerSelect.innerHTML = `<option value="">اختر المستخدم</option>`;
-  filterSelect.innerHTML = `<option value="">كل المستخدمين</option>`;
+      ownerSelect.innerHTML = `<option value="">اختر المستخدم</option>`;
+      filterSelect.innerHTML = `<option value="">كل المستخدمين</option>`;
 
-  users.forEach(user => {
-    const name = typeof user === "object" ? user.name : user;
+      users.forEach(user => {
+        const name = typeof user === "object" ? user.name : user;
 
-    const opt1 = document.createElement("option");
-    opt1.value = opt1.textContent = name;
-    ownerSelect.appendChild(opt1);
+        const opt1 = document.createElement("option");
+        opt1.value = opt1.textContent = name;
+        ownerSelect.appendChild(opt1);
 
-    const opt2 = document.createElement("option");
-    opt2.value = opt2.textContent = name;
-    filterSelect.appendChild(opt2);
-  });
-}
-
+        const opt2 = document.createElement("option");
+        opt2.value = opt2.textContent = name;
+        filterSelect.appendChild(opt2);
+      });
+    }
 
     window.onload = () => {
       populateUserOptions();
       renderEquipment();
 
-      // ✅ تحديث قائمة المستخدمين إذا تم تعديلها من صفحة المستخدمين
       if (localStorage.getItem("refreshUserOptions") === "true") {
         populateUserOptions();
         localStorage.removeItem("refreshUserOptions");
